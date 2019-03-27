@@ -3,11 +3,16 @@ const express = require('express');
 
 const app = express();
 
-app.get('/youtube', async function(req, res) {
+app.get('/youtube.php', async function(req, res) {
+    if (!req.query.v) {
+        res.send("Hey! Creo que te olvidaste la url :(");
+    }
     let songPath = await utils.handleYoutubeRequest(req.query.v);
 
     if (songPath) {
         res.sendFile(songPath, {acceptRanges: false, root: __dirname});
+    } else {
+        res.send("Ups! La url que nos pasaste no es valida o no la podemos descargar :(");
     }
 });
 
